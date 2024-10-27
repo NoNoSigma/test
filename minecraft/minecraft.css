@@ -1,0 +1,18 @@
+.mie-img{
+    justify-content: center;
+    align-items: left;
+    display:flex;
+    padding-top:20%;
+}
+img{
+    transition: transform .2s;
+    width:200px;
+    height:200px;
+    margin-right: 200px;
+    background-color: rgba(68, 68, 142, 0);
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0)
+}
+img:hover{
+    transform:scale(1.1);
+}

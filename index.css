@@ -1,0 +1,93 @@
+/* (A) WHOLE PAGE */
+body {
+    display: flex;
+    padding: 0; margin: 0;
+    min-height: 100vh;
+  }
+  #sideC { display: none; }
+   
+  /* (B) BIG SCREEN : 2-COLUMN LAYOUT */
+  #side { width: 150px; }
+  #main { flex-grow: 1; }
+  #sideL { display: none; }
+   
+  /* (C) SMALL SCREEN */
+  @media screen and (max-width: 120000px) {
+    /* (C1) HIDDEN SIDEBAR */
+    #side {
+      width: 0; visibility: hidden; opacity: 0;
+      transition: all 0.3s;
+    }
+   
+    /* (C2) SHOW SIDEBAR WHEN CHECKED */
+    #sideL { display: inline-block; }
+    #sideC:checked ~ #side {
+      width: 150px; visibility: visible; opacity: 1;
+    }
+  }
+
+  /* (X) COSMETICS */
+/* (X1) WHOLE PAGE */
+* {
+    font-family: Arial, Helvetica, sans-serif;
+    box-sizing: border-box;
+  }
+   
+  /* (X2) SIDEBAR */
+  #side {
+    color: #fff;
+    background: black;
+  }
+  #side a {
+    display: block;
+    width: 100%;
+    padding: 15px 15px;
+  }
+   
+  /* (X3) MAIN */
+  #sideL {
+    padding: 10px;
+    font-size: 24px;
+    color: #fff; background: #00000000;
+    cursor: menu;
+  }
+  #main { padding: 10px; }
+
+  img {
+    width: 100px;
+  }
+
+  a {
+    text-decoration: none;
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 21px;
+    letter-spacing: -2.2px;
+    word-spacing: 2.2px;
+    color: #FFFFFF;
+    font-weight: 700;
+    text-decoration: none;
+    font-style: normal;
+    font-variant: normal;
+    text-transform: capitalize;
+    
+  }
+
+  h1 {
+      font-family: Verdana, Geneva, sans-serif;
+      font-size: 21px;
+      letter-spacing: -2.2px;
+      word-spacing: 2.2px;
+      color: #FFFFFF;
+      font-weight: 700;
+      text-decoration: none;
+      font-style: normal;
+      font-variant: normal;
+      text-transform: capitalize;
+      }
+  
+
+  p {
+    text-align: center;
+  }
+
+ 
