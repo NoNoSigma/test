@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Credits - FusionTalk</title>
+    <style>
+/* ===== BASE STYLES ===== */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    height: 100vh;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ===== DARK THEME STYLES ===== */
+body.dark-theme {
+    background-color: #121212;
+    color: #ffffff;
+}
+
+body.dark-theme .sidebar {
+    background-color: #1e1e1e;
+    border-right: 1px solid #333;
+}
+
+body.dark-theme .sidebar h2 {
+    color: #ffffff;
+}
+
+body.dark-theme .sidebar ul li a {
+    color: #bbbbbb;
+}
+
+body.dark-theme .sidebar ul li a:hover {
+    background-color: #333;
+    color: #007bff;
+}
+
+body.dark-theme .sidebar ul li a.active {
+    background-color: #007bff;
+    color: #ffffff;
+}
+
+body.dark-theme .main-content {
+    background-color: #1e1e1e;
+    color: #ffffff;
+}
+
+body.dark-theme .main-content h3 {
+    color: #ffffff;
+}
+
+body.dark-theme .creator-card {
+    background-color: #2d2d2d;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border-top: 4px solid #4285f4;
+}
+
+body.dark-theme .creator-name {
+    color: #ffffff;
+}
+
+body.dark-theme .creator-role {
+    color: #bbbbbb;
+}
+
+body.dark-theme .creator-bio {
+    color: #cccccc;
+}
+
+body.dark-theme .contributions-title {
+    color: #ffffff;
+}
+
+body.dark-theme .contributions-title::before {
+    color: #4285f4;
+}
+
+body.dark-theme .contributions-list li {
+    border-bottom: 1px solid #3a3a3a;
+}
+
+body.dark-theme .contributions-list li::before {
+    color: #4285f4;
+}
+
+body.dark-theme .social-link {
+    background-color: #4285f4;
+}
+
+body.dark-theme .social-link:hover {
+    background-color: #3367d6;
+}
+
+body.dark-theme .back-button {
+    background-color: #4285f4;
+}
+
+body.dark-theme .back-button:hover {
+    background-color: #3367d6;
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar {
+    width: 250px;
+    background-color: #fff;
+    border-right: 1px solid #ddd;
+    padding: 1rem;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 10;
+}
+
+.sidebar h2 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    color: #444;
+    transition: color 0.3s ease;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar ul li {
+    margin: 0.5rem 0;
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    color: #666;
+    font-size: 0.9rem;
+    display: block;
+    padding: 0.5rem;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.sidebar ul li a:hover {
+    background-color: #f1f1f1;
+    color: #007bff;
+    transform: translateX(5px);
+}
+
+.sidebar ul li a.active {
+    background-color: #007bff;
+    color: #fff;
+    transform: translateX(5px);
+}
+
+/* ===== MAIN CONTENT ===== */
+.main-content {
+    flex: 1;
+    padding: 2rem;
+    background-color: #fff;
+    overflow-y: auto;
+    transition: background-color 0.3s ease;
+    position: relative;
+}
+
+.main-content h3 {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+    color: #444;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 0.5rem;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+/* ===== CREDITS CONTAINER ===== */
+.credits-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin-top: 2rem;
+    position: relative;
+}
+
+/* ===== CREATOR CARD ===== */
+.creator-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 2rem;
+    width: 300px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border-top: 4px solid #007bff;
+    position: relative;
+    overflow: hidden;
+}
+
+.creator-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.creator-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(0,123,255,0.1) 0%, rgba(0,123,255,0) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.creator-card:hover::after {
+    opacity: 1;
+}
+
+.creator-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #007bff;
+    margin: 0 auto 1.5rem;
+    display: block;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.creator-card:hover .creator-avatar {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.creator-name {
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 0.5rem;
+    color: #333;
+    transition: color 0.3s ease;
+    position: relative;
+}
+
+.creator-name::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 2px;
+    background-color: #007bff;
+    transition: all 0.3s ease;
+}
+
+.creator-card:hover .creator-name::after {
+    width: 80px;
+}
+
+.creator-role {
+    font-size: 1rem;
+    text-align: center;
+    color: #666;
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.creator-bio {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #555;
+    margin-bottom: 1.5rem;
+    transition: color 0.3s ease;
+}
+
+/* ===== CONTRIBUTIONS ===== */
+.creator-contributions {
+    margin-top: 1.5rem;
+}
+
+.contributions-title {
+    font-size: 1.1rem;
+    color: #333;
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    transition: color 0.3s ease;
+}
+
+.contributions-title::before {
+    content: "★";
+    color: #007bff;
+    margin-right: 8px;
+    font-size: 1.2rem;
+    transition: color 0.3s ease;
+}
+
+.contributions-list {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.contributions-list li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #e0e0e0;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.contributions-list li:hover {
+    transform: translateX(5px);
+}
+
+.contributions-list li::before {
+    content: "•";
+    color: #007bff;
+    font-size: 1.5rem;
+    margin-right: 10px;
+    line-height: 0;
+    transition: color 0.3s ease;
+}
+
+/* ===== SOCIAL LINKS ===== */
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.social-link {
+    color: #ffffff;
+    background-color: #007bff;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.social-link i {
+    position: relative;
+    z-index: 1;
+}
+
+.social-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,0.2);
+    transform: scale(0);
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+}
+
+.social-link:hover {
+    background-color: #0069d9;
+    transform: translateY(-3px) scale(1.1);
+}
+
+.social-link:hover::before {
+    transform: scale(1);
+}
+
+/* ===== BACK BUTTON ===== */
+.back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 2rem;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.back-button::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 100%);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+}
+
+.back-button:hover {
+    background-color: #0069d9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+}
+
+.back-button:hover::after {
+    transform: translateX(100%);
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+    body {
+        flex-direction: column;
+        height: auto;
+        min-height: 100vh;
+    }
+
+    .sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .main-content {
+        padding: 1.5rem;
+    }
+
+    .credits-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .creator-card {
+        width: 100%;
+        max-width: 350px;
+    }
+}
+    </style>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>FusionTalk</h2>
+        <ul>
+            <li><a href="settings.html">Back to Settings</a></li>
+            <li><a href="#" class="active">Credits</a></li>
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="terms.html">Terms & Conditions</a></li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <h3>Project Credits</h3>
+        
+        <div class="credits-container">
+            <!-- Creator 1 - Developer -->
+            <div class="creator-card">
+                <img src="images/NONO.png" alt="Developer Avatar" class="creator-avatar">
+                <h4 class="creator-name">NoNoSigma</h4>
+                <p class="creator-role">Founder and Lead Developer</p>
+                <p class="creator-bio">The brains behind the operation, responsible for all the technical wizardry that makes FusionTalk work seamlessly.</p>
+                
+                <div class="creator-contributions">
+                    <h5 class="contributions-title">Key Contributions</h5>
+                    <ul class="contributions-list">
+                        <li>Chat Design</li>
+                        <li>Login Design</li>
+                        <li>Authentication system</li>
+                        <li>Real-time messaging</li>
+                        <li>Logo Design</li>
+                    </ul>
+                </div>
+                
+                <div class="social-links">
+                    <a href="#" class="social-link" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="#" class="social-link" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link" aria-label="Website"><i class="fas fa-globe"></i></a>
+                </div>
+            </div>
+            
+            <!-- Creator 2 - Artist -->
+            <div class="creator-card">
+                <img src="images/connot1.png" alt="Artist Avatar" class="creator-avatar">
+                <h4 class="creator-name">SmallFry</h4>
+                <p class="creator-role">Co-Founder and Developer</p>
+                <p class="creator-bio">The creative force behind FusionTalk's visual identity, ensuring the app is as beautiful as it is functional.</p>
+                
+                <div class="creator-contributions">
+                    <h5 class="contributions-title">Key Contributions</h5>
+                    <ul class="contributions-list">
+                        <li>FusionTalk Calling</li>
+                        <li>Inspration</li>
+                        <li>Color schemes</li>
+                        <li>Brand identity</li>
+                        <li>Theme implementation</li>
+                    </ul>
+                </div>
+                
+                <div class="social-links">
+                    <a href="#" class="social-link" aria-label="Behance"><i class="fab fa-behance"></i></a>
+                    <a href="#" class="social-link" aria-label="Dribbble"><i class="fab fa-dribbble"></i></a>
+                    <a href="#" class="social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        
+        <a href="settings.html" class="back-button">
+            <i class="fas fa-arrow-left"></i> Back to Settings
+        </a>
+    </div>
+    <script>
+function toggleTheme() {
+    document.body.classList.toggle('dark-theme');
+    // Save preference to localStorage if needed
+    const isDark = document.body.classList.contains('dark-theme');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+}
+    </script>
+</body>
+</html>

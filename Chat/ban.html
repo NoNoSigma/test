@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banned</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 20%;
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        h1 {
+            font-size: 2em;
+        }
+        p {
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <h1>You have been banned for 24 hours</h1>
+    <p>Time remaining until your ban is lifted:</p>
+    <p>if you belive this was a mistake please contact the administrator of the chat</p>
+    <p id="countdown">Calculating...</p>
+
+    <script>
+        // Get the ban timestamp from localStorage
+        const banData = JSON.parse(localStorage.getItem('banData'));
+
+        if (banData && banData.timestamp) {
+            const banDuration = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+            const banEndTime = banData.timestamp + banDuration;
+
+            function updateCountdown() {
+                const currentTime = Date.now();
+                const timeLeft = banEndTime - currentTime;
+
+                if (timeLeft > 0) {
+                    const hours = Math.floor((timeLeft / (1000 * 60 * 60)) % 24);
+                    const minutes = Math.floor((timeLeft / (1000 * 60)) % 60);
+                    const seconds = Math.floor((timeLeft / 1000) % 60);
+
+                    document.getElementById('countdown').textContent =
+                        `${hours}h ${minutes}m ${seconds}s`;
+                } else {
+                    // If the ban has expired, clear the ban data and reload the page
+                    localStorage.removeItem('banData');
+                    location.reload();
+                }
+            }
+
+            // Update the countdown every second
+            setInterval(updateCountdown, 1000);
+            updateCountdown(); // Initial call to display immediately
+        } else {
+            // If no ban data exists, redirect to the main page
+            window.location.href = 'chat.html';
+        }
+    </script>
+</body>
+</html>

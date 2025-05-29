@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Particle Text Animation</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <canvas id="particleCanvas"></canvas>
+        <div id="textContainer">
+            <span id="welcomeText">Welcome to FusionTalk Messages</span>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+ <style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #1e1e2f, #2a2a40);
+    overflow: hidden;
+    font-family: 'Arial', sans-serif;
+}
+
+.container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+#textContainer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 2;
+    color: white;
+    font-size: 3rem;
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+    opacity: 0; /* Start hidden */
+    transition: opacity 1s ease-in-out;
+}
+
+#welcomeText {
+    white-space: nowrap; /* Ensure text stays on one line */
+}
+
+#fusionText {
+    display: none;
+}
+ </style>
+
+ <script>
+const canvas = document.getElementById('particleCanvas');
+const ctx = canvas.getContext('2d');
+const welcomeText = document.getElementById('welcomeText');
+const textContainer = document.getElementById('textContainer');
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+const particleCount = 500; // A LOT MORE PARTICLES
+const text = "Welcome to FusionTalk Messages";
+let textParticles = [];
+let animationFrame;
+
+class Particle {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.size = Math.random() * 2 + 1; // Smaller particles for smoother text
+        this.baseX = x;
+        this.baseY = y;
+        this.density = (Math.random() * 10) + 5;
+        this.color = `rgba(255, 255, 255, ${Math.random()})`;
+        this.alpha = 1; // Fade out control
+        this.isTextParticle = false; // Track if this particle is part of the text
+    }
+
+    update() {
+        // Move particles towards their target positions
+        if (this.isTextParticle) {
+            const dx = this.baseX - this.x;
+            const dy = this.baseY - this.y;
+            this.x += dx / this.density;
+            this.y += dy / this.density;
+        } else {
+            // Random movement for non-text particles
+            this.x += Math.random() * 2 - 1;
+            this.y += Math.random() * 2 - 1;
+        }
+    }
+
+    draw() {
+        ctx.save();
+        ctx.globalAlpha = this.alpha; // Apply alpha for fading
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = this.color;
+        ctx.fill();
+        ctx.restore();
+    }
+}
+
+function initParticles() {
+    particles = [];
+    for (let i = 0; i < particleCount; i++) {
+        const x = Math.random() * canvas.width;
+        const y = Math.random() * canvas.height;
+        particles.push(new Particle(x, y));
+    }
+}
+
+function animateParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(particle => {
+        particle.update();
+        particle.draw();
+    });
+    animationFrame = requestAnimationFrame(animateParticles);
+}
+
+function formText() {
+    // Measure the text to position particles
+    ctx.font = "3rem Arial";
+    const textWidth = ctx.measureText(text).width;
+    const textX = (canvas.width - textWidth) / 2;
+    const textY = canvas.height / 2;
+
+    // Create a temporary canvas to extract text pixels
+    const tempCanvas = document.createElement('canvas');
+    const tempCtx = tempCanvas.getContext('2d');
+    tempCanvas.width = canvas.width;
+    tempCanvas.height = canvas.height;
+    tempCtx.font = "3rem Arial";
+    tempCtx.fillStyle = "white";
+    tempCtx.fillText(text, textX, textY);
+
+    // Extract pixel data from the text
+    const imageData = tempCtx.getImageData(0, 0, canvas.width, canvas.height).data;
+
+    // Map particles to text pixels
+    textParticles = [];
+    for (let i = 0; i < particles.length; i++) {
+        const x = Math.floor(Math.random() * canvas.width);
+        const y = Math.floor(Math.random() * canvas.height);
+        const pixelIndex = (y * canvas.width + x) * 4;
+        if (imageData[pixelIndex] > 128) { // Check if the pixel is part of the text
+            particles[i].isTextParticle = true;
+            particles[i].baseX = x;
+            particles[i].baseY = y;
+            textParticles.push(particles[i]);
+        }
+    }
+
+    // Animate particles to form the text
+    let frame = 0;
+    const totalFrames = 100;
+
+    function animateText() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(particle => {
+            particle.update();
+            particle.draw();
+        });
+
+        frame++;
+        if (frame < totalFrames) {
+            requestAnimationFrame(animateText);
+        } else {
+            // Fade out text particles and fade in text
+            fadeOutTextParticles();
+        }
+    }
+
+    animateText();
+}
+
+function fadeOutTextParticles() {
+    let alpha = 1;
+    function fade() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(particle => {
+            if (particle.isTextParticle) {
+                particle.alpha = alpha; // Reduce alpha for fading
+            }
+            particle.draw();
+        });
+        alpha -= 0.02; // Gradually reduce alpha
+        if (alpha > 0) {
+            requestAnimationFrame(fade);
+        } else {
+            // Show the actual text after particles fade out
+            textContainer.style.opacity = 1;
+        }
+    }
+    fade();
+}
+
+function startAnimation() {
+    initParticles();
+    animateParticles();
+    setTimeout(() => {
+        formText();
+    }, 200);
+}
+
+startAnimation();
+ </script>
+</body>
+</html>
